@@ -1,0 +1,28 @@
+package minecraft;
+
+import org.lwjgl.opengl.GL11;
+public class Quad
+{
+	
+	
+	 int x=-5;
+	 int y=-5;
+	
+	public void quads()
+	{
+		
+		GL11.glColor3f(1.1f,1.1f,1.1f);
+		
+		// draw quad
+
+		GL11.glTranslatef(x, y, 0);
+		GL11.glTranslatef(-x, -y, 0);
+		
+		GL11.glPushMatrix();
+			GL11.glPointSize(10);
+			GL11.glBegin(GL11.GL_POINTS);
+			GL11.glVertex2f(x +5, y +5);
+			GL11.glEnd();
+		GL11.glPopMatrix();
+	}
+}
