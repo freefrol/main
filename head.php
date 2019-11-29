@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <title><?php echo $title;?></title>
     <style>
-        a[name="enter"]{
+        a[name="enter"], a[name="registration"]{
             float: right;
+            margin-right: 10px;
         }
         .myModal{
             position: absolute;
@@ -37,9 +38,10 @@
             top: -250px;
             font-weight: bold;
         }
-        a[name='exit']{
+        a[name='lk'], a[name='exit'] {
             display: none;
             float: right;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -61,7 +63,9 @@
         }
         ?>
         <a href="" name="enter" style="display: <?php echo $displayEnter; ?>;" >Вход</a>
+        <a href="registration.php" name="registration" style="display: <?php echo $displayEnter; ?>;" >Регистрация</a>
         <a href="" name="exit" style="display: <?php echo $displayExit; ?>;" >Выход</a>
+        <a href="lk.php" name="lk" style="display: <?php echo $displayExit; ?>;" >Личный кабинет</a>
     </div>
     <div class="myModal">
         <a href="">закрыть</a>
@@ -79,9 +83,9 @@
         </form>
         <span></span>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-        let myModal = $(".myModal");
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+    <script >
+    let myModal = $(".myModal");
         $("a[name='enter']").click(function(event){
             event.preventDefault();
             let top = +myModal.css("top").slice(0, myModal.css("top").length-2);
@@ -119,15 +123,9 @@
         function send(form, adres){
             let req = getXmlHttp();
             let params = "";
-            let element = form.firstChild;
-            for(let i=0; i < form.childNodes.length; i++){
-                if(element.firstChild != undefined){
-                    let input = element.firstChild.nextSibling;
-                    if(input.name != ""){
-                        params += input.name+"="+input.value+"&";
-                    }
-                }
-                element = element.nextSibling;
+            let elements = form.querySelectorAll('input');
+            for(let i=0; i < elements.length-1; i++){
+                params += elements[i].name+"="+elements[i].value+"&";
             }
             req.open('POST', adres, true);
             req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -163,7 +161,9 @@
                 $(".myModal span").css({color: "green"});
                 $(".myModal").delay(1000).animate({top: "-300px"},1000);
                 $("a[name='enter']").css({display: "none"});
+                $("a[name='registration']").css({display: "none"});
                 $("a[name='exit']").css({display: "initial"});
+                $("a[name='lk']").css({display: "initial"});
                 let userName = getPhp("getUserName.php");
                 $("span[name='userName']").html(userName);
             } else {
@@ -175,7 +175,9 @@
         $("a[name='exit']").click(function(event){
             event.preventDefault();
             $("a[name='enter']").css({display: "initial"});
+            $("a[name='registration']").css({display: "initial"});
             $("a[name='exit']").css({display: "none"});
+            $("a[name='lk']").css({display: "none"});
             getPhp("exit.php");
         });
     </script>
